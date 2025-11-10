@@ -21,7 +21,7 @@ For information invoke :code:`cellmaps_ppidownloadercmd.py -h`
 
 .. code-block::
 
-    cellmaps_ppidownloadercmd.py OUTPUT_DIRECTORY [--provenance PROVENANCE_PATH] [OPTIONS]
+    cellmaps_ppidownloadercmd.py OUTPUT_DIRECTORY --provenance PROVENANCE_PATH [OPTIONS]
 
 **Arguments**
 
@@ -32,9 +32,9 @@ For information invoke :code:`cellmaps_ppidownloadercmd.py -h`
 
 
 - ``--provenance PROVENANCE_PATH``
-    Path to file containing provenance information about input files in JSON format.
+    Path to file containing provenance information about input files in JSON format. This argument is always required, regardless of which input format you use.
 
-*Optional but either `edgelist` and `baitlist` parameters, or `cm4ai_table` parameter is required*
+*In addition to ``--provenance``, supply either both ``--edgelist`` and ``--baitlist`` or a single ``--cm4ai_table``.*
 
 - ``--edgelist``
     APMS edgelist TSV file in the format:
@@ -53,7 +53,7 @@ For information invoke :code:`cellmaps_ppidownloadercmd.py -h`
         "ADA"         "100"     1
 
 - ``--cm4ai_table``
-    A `.tsv` file from CM4AI RO-Crate that should contain at least the following columns: Bait, Prey, logOddsScore, FoldChange.x, and BFDR.x.
+    Path to the CM4AI `.tsv` file (not just the containing directory) that should contain at least the following columns: Bait, Prey, logOddsScore, FoldChange.x, and BFDR.x.
 
 *Optional*
 
@@ -85,17 +85,15 @@ For information invoke :code:`cellmaps_ppidownloadercmd.py -h`
     If set, certain log files will not be created.
 
 - ``--verbose`` or ``-v``
-    Increases the verbosity of the logger to standard error for log messages in this module. The levels are as follows:
+    Increases the verbosity of the logger to standard error for log messages in this module. This flag stacks, so each additional ``-v`` raises verbosity one level. By default (no ``-v``) the tool logs at ERROR level. The mapping is:
 
     .. code-block::
 
-        -v     = ERROR
-        -vv    = WARNING
-        -vvv   = INFO
-        -vvvv  = DEBUG
-        -vvvvv = NOTSET
-
-    Default is no logging.
+        (no -v) = ERROR
+        -v      = WARNING
+        -vv     = INFO
+        -vvv    = DEBUG
+        -vvvv   = NOTSET
 
 - ``--version``
     Displays the version of the `cellmaps_ppidownloader` program.
@@ -108,7 +106,7 @@ then unpack the tar gz (tar -xzvf filename.tar.gz).
 
 .. code-block::
 
-   cellmaps_ppidownloadercmd.py ./cellmaps_ppidownloader_outdir  --cm4ai_table path/to/downloaded/unpacked/dir --provenance examples/provenance.json
+   cellmaps_ppidownloadercmd.py ./cellmaps_ppidownloader_outdir  --cm4ai_table path/to/downloaded/unpacked/dir/apms.tsv --provenance examples/provenance.json
 
 
 Alternatively, use the files in the example directory in the repository:
@@ -129,4 +127,3 @@ Via Docker
 .. code-block::
 
    Coming soon...
-
